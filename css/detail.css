@@ -1,7 +1,6 @@
-/* Game detail is a deep-linkable overlay (#/game/:id) layered over the
-   library. The panel is laid out so the essentials — capture, title, tagline,
-   tags, builders, and the action bar — stay in view without scrolling on every
-   viewport; only the description scrolls when a very small screen runs short. */
+/* Game detail is a deep-linkable overlay (#/game/:id) above the current hub page.
+   The description scrolls within the panel. Short landscape layouts also allow
+   body scrolling so the action bar stays reachable. */
 
 .detail-overlay {
   position: fixed;
@@ -101,10 +100,8 @@
   flex-direction: column;
 }
 
-/* Essentials (eyebrow/title/tagline/tags/builders) sit above the description and
-   never shrink, so they stay fully visible without scrolling. The description is
-   the only flexible region (flex: 1 1 auto — it claims its content height, then
-   shrinks/scrolls under the panel's max-height), and the action bar is pinned. */
+/* The header keeps its content height. The description shrinks and scrolls
+   under the panel's max-height; the action bar keeps its own height. */
 .detail-header {
   flex: 0 0 auto;
   padding: clamp(18px, 2.4vw, 26px) clamp(20px, 3vw, 32px) 0;
@@ -248,7 +245,7 @@
   background: rgba(8, 9, 16, 0.6);
 }
 
-/* WIP games have only two actions (Follow on GitHub + Copy link). */
+/* Games without a play URL have two actions: Follow on GitHub and Copy link. */
 .detail-actions.is-duo {
   grid-template-columns: 1fr auto;
 }
@@ -410,10 +407,8 @@
     min-height: 160px;
   }
 
-  /* The action bar lives at the bottom of the body; on the very shortest
-     landscape heights (or a many-builder game) the body scrolls so Play stays
-     reachable. On the required landscape sizes (844x390, 932x430) everything
-     fits without scrolling. */
+  /* The body can scroll at short landscape heights or with many builder credits,
+     keeping the action bar reachable when the content exceeds the viewport. */
   .detail-body {
     flex: 1 1 auto;
     min-width: 0;

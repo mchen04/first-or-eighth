@@ -3,7 +3,7 @@
 // form), inline flow sequences ([a, b]), single/double quoted and plain
 // scalars, folded (>) and literal (|) block scalars, whole-line comments, and
 // blank lines. It runs unchanged in the browser and in Node, so the YAML files
-// are the single canonical data source with no build step and no drift.
+// use the same parsing rules without a build step or generated data copy.
 //
 // It is intentionally not a full YAML 1.2 implementation, but it follows YAML's
 // rules where it matters:

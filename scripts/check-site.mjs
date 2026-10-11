@@ -34,7 +34,6 @@ if (data && !games.length) fail("No games defined in data/games.yaml");
 
 // --- Files exist --------------------------------------------------------------
 
-const screenshotFiles = games.flatMap((game) => (game.screenshot ? Object.values(game.screenshot) : []));
 const requiredFiles = [
   "index.html",
   "favicon.svg",
@@ -48,8 +47,7 @@ const requiredFiles = [
   "scripts/generate-screenshots.mjs",
   "scripts/image-metadata.mjs",
   "README.md",
-  ...expectedCssFiles,
-  ...screenshotFiles
+  ...expectedCssFiles
 ];
 
 for (const file of requiredFiles) {
@@ -62,12 +60,11 @@ const html = exists("index.html") ? readText("index.html") : "";
 const js = exists("src/app.js") ? readText("src/app.js") : "";
 
 const linkedCss = [...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => linkStylesheet(tag)).filter(Boolean);
-if (!linkedCss.length) fail("index.html does not link any local stylesheets");
 if (linkedCss.join("\n") !== expectedCssFiles.join("\n")) {
   fail(`index.html stylesheet order mismatch. Expected: ${expectedCssFiles.join(", ")}; found: ${linkedCss.join(", ")}`);
 }
 
-for (const snippet of ["First or Eighth", "favicon.svg", "src/app.js", ...linkedCss]) {
+for (const snippet of ["First or Eighth", "favicon.svg", "src/app.js"]) {
   if (!html.includes(snippet)) fail(`index.html does not include ${snippet}`);
 }
 
@@ -103,7 +100,7 @@ if (!js.includes('sort: "az"')) fail("src/app.js should default to alphabetical 
 if (!js.includes("onlineCount()")) fail("src/app.js should derive the online count from data");
 if (!js.includes('loadData')) fail("src/app.js should load data from the YAML loader");
 
-// --- Screenshots: derived names + image contracts -----------------------------
+// --- Screenshots: existence + format + dimensions -----------------------------
 
 for (const game of games) {
   if (!game.screenshot) continue;

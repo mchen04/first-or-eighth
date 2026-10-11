@@ -19,7 +19,6 @@
   margin: 0;
 }
 
-.creator-head p,
 .creator-card p {
   margin: 3px 0 0;
   color: var(--text-mute);

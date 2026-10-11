@@ -1,4 +1,4 @@
-// Node-side data loader for the build/check scripts. Reads the same canonical
+// Node-side data loader for the asset/check scripts. Reads the same canonical
 // YAML the browser fetches and runs it through the same parser + data layer,
 // resolving paths from the repo root so the scripts work from any cwd.
 
