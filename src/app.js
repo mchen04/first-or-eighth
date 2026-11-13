@@ -1,4 +1,5 @@
 import { loadData } from "./data.mjs";
+import { GENRES } from "./lib/data.mjs";
 
 // ---------------------------------------------------------------------------
 // State
@@ -274,7 +275,7 @@ function renderResults() {
 }
 
 function countLabel(count) {
-  return `${count} ${count === 1 ? "game" : "games"}`;
+  return `${count} ${count === 1 ? "game or tool" : "games & tools"}`;
 }
 
 function renderOverlay() {
@@ -523,7 +524,7 @@ function setInert(selector, inert) {
 const BASE_TITLE = "First or Eighth";
 
 const NAV_LINKS = [
-  ["home", "Games", "#/"],
+  ["home", "Games & tools", "#/"],
   ["creators", "Builders", "#/creators"]
 ];
 
@@ -538,7 +539,7 @@ function topbar() {
         ${NAV_LINKS.map(([id, label, href]) => navLink(id, label, href)).join("")}
       </nav>
       <div class="topbar-right">
-        <span class="online-pill"><span class="status-dot" aria-hidden="true"></span>${onlineCount()} online<span class="sr-only"> live playable games</span></span>
+        <span class="online-pill"><span class="status-dot" aria-hidden="true"></span>${onlineCount()} online<span class="sr-only"> live games and tools</span></span>
         <button class="icon-button" data-action="toggle-nav" aria-controls="mobile-drawer" aria-label="${state.navOpen ? "Close menu" : "Open menu"}" aria-expanded="${state.navOpen}">
           <span></span><span></span><span></span>
         </button>
@@ -561,7 +562,7 @@ function topbar() {
       ${NAV_LINKS.map(([id, label, href]) => navLink(id, label, href, "nav-link")).join("")}
       <div class="drawer-foot">
         <span class="status-dot" aria-hidden="true"></span>
-        ${games.length} ${games.length === 1 ? "game" : "games"} in rotation
+        ${games.length} games &amp; tools in rotation
       </div>
     </aside>
   `;
@@ -575,7 +576,7 @@ function navLink(id, label, href, action = "") {
 function footer() {
   return `
     <footer class="footer">
-      <span>FIRST_OR_EIGHTH</span>
+      <span>FIRST_OR_EIGHTH — GAMES &amp; TOOLS</span>
       <span class="footer-creators">
         ${sortedCreators().map(([, creator]) => `
           <span class="footer-person"><span class="person-dot" style="--person:${escapeAttr(safeColor(creator.color))}"></span>${escapeHtml(creator.name)}</span>
@@ -591,7 +592,7 @@ function footer() {
 // ---------------------------------------------------------------------------
 
 function libraryPage() {
-  const genres = ["All", ...new Set(games.map((game) => game.genre))];
+  const genres = ["All", ...GENRES.filter((genre) => games.some((game) => game.genre === genre))];
   const wipCount = games.filter((game) => game.status === "WIP").length;
   const filtered = filteredGames();
 
@@ -599,16 +600,16 @@ function libraryPage() {
     <main class="page" data-page="library">
       <section class="library-head">
         <div>
-          <h1>Games.</h1>
-          <p>Everything we've built, plus what's still in the kitchen.</p>
+          <h1>Games &amp; tools.</h1>
+          <p>Everything we've built for the group — games to play and tools we actually use.</p>
         </div>
-        <span>${games.length} ${games.length === 1 ? "game" : "games"} / ${wipCount} WIP</span>
+        <span>${games.length} games &amp; tools${wipCount ? ` / ${wipCount} WIP` : ""}</span>
       </section>
 
-      <section class="controls" aria-label="Game filters">
+      <section class="controls" aria-label="Game and tool filters">
         <label class="search-box">
           <span>Search</span>
-          <input data-search type="search" value="${escapeAttr(state.query)}" placeholder="Search games" />
+          <input data-search type="search" value="${escapeAttr(state.query)}" placeholder="Search games &amp; tools" />
         </label>
         <label class="sort-box">
           <span>Sort</span>
@@ -665,15 +666,21 @@ function filteredGames() {
 
 function searchText(game) {
   const people = [game.creator, ...game.editors].map((id) => creators[id]?.name ?? "").join(" ");
-  return `${game.name} ${game.genre} ${game.tagline} ${game.description} ${people} ${game.status} ${game.url} ${game.sourceUrl}`.toLowerCase();
+  return `${game.name} ${game.kind} ${game.genre} ${game.tagline} ${game.description} ${people} ${game.status} ${game.added} ${game.url} ${game.sourceUrl}`.toLowerCase();
 }
 
 const sorters = {
   az: byGameName,
-  newest: (a, b) => String(b.year ?? "").localeCompare(String(a.year ?? "")) || byGameName(a, b),
+  newest: (a, b) => String(b.added ?? "").localeCompare(String(a.added ?? "")) || byGameName(a, b),
   creator: (a, b) => (creators[a.creator]?.name ?? "").localeCompare(creators[b.creator]?.name ?? "") || byGameName(a, b),
-  status: (a, b) => Number(b.status === "Live") - Number(a.status === "Live") || byGameName(a, b)
+  status: (a, b) => statusRank(a.status) - statusRank(b.status) || byGameName(a, b)
 };
+
+const STATUS_RANK = { Live: 0, WIP: 1 };
+
+function statusRank(status) {
+  return STATUS_RANK[status] ?? 3;
+}
 
 function byGameName(a, b) {
   return a.name.localeCompare(b.name, undefined, { numeric: true });
@@ -686,7 +693,7 @@ function option(value, label) {
 function gameCard(game) {
   return `
     <article class="game-card surface" style="--accent:${escapeAttr(safeColor(game.accent))}">
-      ${game.status === "WIP" ? wipBadge() : ""}
+      ${statusBadge(game.status)}
       <a class="card-open" href="#/game/${escapeAttr(game.id)}" aria-label="Open ${escapeAttr(game.name)} details">
         ${thumb(game)}
       </a>
@@ -702,7 +709,7 @@ function gameCard(game) {
         </div>
         <div class="card-actions">
           ${cardPlayLink(game)}
-          ${externalLink("card-link", game.sourceUrl, "GitHub", game.name)}
+          ${sourceAction(game, "card-link")}
         </div>
       </div>
     </article>
@@ -727,7 +734,7 @@ function emptyState() {
 // ---------------------------------------------------------------------------
 
 function detailOverlay(game) {
-  const isWip = game.status === "WIP";
+  const status = game.status;
 
   return `
     <div class="detail-overlay" role="presentation">
@@ -745,13 +752,13 @@ function detailOverlay(game) {
         </button>
 
         <div class="detail-media">
-          ${isWip ? wipBadge(true) : ""}
+          ${statusBadge(status, true)}
           ${thumb(game, true)}
         </div>
 
         <div class="detail-body">
           <div class="detail-header">
-            <p class="eyebrow ${isWip ? "is-wip" : "is-live"}">${isWip ? "Work in progress" : "Live"}</p>
+            <p class="eyebrow ${statusClass(status)}">${statusLabel(status)}</p>
             <h1 class="detail-title" id="detail-title">${escapeHtml(game.name)}</h1>
             <p class="detail-tagline">${escapeHtml(game.tagline)}</p>
             <div class="detail-tags">
@@ -770,9 +777,9 @@ function detailOverlay(game) {
 
           <div class="detail-actions ${game.url ? "" : "is-duo"}">
             ${game.url
-              ? `${playButton(game, "Play")}
-            ${externalLink("button button-secondary", game.sourceUrl, "GitHub", game.name)}`
-              : externalLink("button", game.sourceUrl, "Follow on GitHub", game.name)}
+              ? `${playButton(game, game.kind === "tool" ? "Open" : "Play")}
+            ${sourceAction(game, "button button-secondary")}`
+              : sourceAction(game, "button")}
             <button class="button button-secondary" data-action="copy-link">Copy link</button>
             <span class="sr-only" data-detail-status aria-live="polite" aria-atomic="true"></span>
           </div>
@@ -857,9 +864,15 @@ function thumb(game, big = false) {
   return `
     <div class="thumb ${big ? "big" : ""} ${game.status === "WIP" ? "is-wip" : ""}" style="${accentStyle(game.accent)}">
       ${image ? screenshotImage(game, image, big) : `<span class="thumb-pattern" aria-hidden="true"></span>`}
-      <span class="thumb-tag" aria-hidden="true">${image ? "Live capture" : "[ thumbnail ]"}</span>
+      <span class="thumb-tag" aria-hidden="true">${image ? captureLabel(game) : "[ thumbnail ]"}</span>
     </div>
   `;
+}
+
+function captureLabel(game) {
+  const date = game.captured ? new Date(`${game.captured}T00:00:00Z`) : null;
+  if (!date || Number.isNaN(date.getTime())) return "Live capture";
+  return `Captured ${date.toLocaleString("en-US", { month: "short", timeZone: "UTC" })} ${date.getUTCFullYear()}`;
 }
 
 function screenshotImage(game, image, big) {
@@ -875,12 +888,24 @@ function screenshotImage(game, image, big) {
 
 function playButton(game, label) {
   if (!game.url) return `<button class="button is-disabled" disabled>${escapeHtml(label)}</button>`;
-  return `<a class="button" href="${escapeAttr(safeUrl(game.url))}" target="_blank" rel="noreferrer noopener" aria-label="${escapeAttr(`Play ${game.name} — opens in a new tab`)}">${escapeHtml(label)}</a>`;
+  return `<a class="button" href="${escapeAttr(safeUrl(game.url))}" target="_blank" rel="noreferrer noopener" aria-label="${escapeAttr(`${label} ${game.name} — opens in a new tab`)}">${escapeHtml(label)}</a>`;
 }
 
 function cardPlayLink(game) {
-  if (!game.url) return `<button class="card-link is-disabled" disabled>Not live</button>`;
-  return `<a class="card-link is-primary" href="${escapeAttr(safeUrl(game.url))}" target="_blank" rel="noreferrer noopener" aria-label="${escapeAttr(`Play ${game.name} — opens in a new tab`)}">Play</a>`;
+  if (!game.url) {
+    return `<button class="card-link is-disabled" disabled>Not live</button>`;
+  }
+  const label = game.kind === "tool" ? "Open" : "Play";
+  return `<a class="card-link is-primary" href="${escapeAttr(safeUrl(game.url))}" target="_blank" rel="noreferrer noopener" aria-label="${escapeAttr(`${label} ${game.name} — opens in a new tab`)}">${label}</a>`;
+}
+
+function sourceAction(game, classes) {
+  if (game.sourcePrivate) return privateSourceNote(classes);
+  return externalLink(classes, game.sourceUrl, game.url ? "GitHub" : "Follow on GitHub", game.name);
+}
+
+function privateSourceNote(classes) {
+  return `<span class="${classes} is-note">Private source</span>`;
 }
 
 function externalLink(classes, url, label, name) {
@@ -898,12 +923,23 @@ function personPill(id, editorCount = 0) {
   `;
 }
 
-function wipBadge(decorative = false) {
+function statusBadge(status, decorative = false) {
+  if (status !== "WIP") return "";
   // On the card the badge is the only status cue, so it announces itself; in the
-  // detail overlay the eyebrow already says "Work in progress", so hide it.
+  // detail overlay the eyebrow already says the status, so hide it.
   return decorative
-    ? `<span class="wip-badge" aria-hidden="true"><span></span>WIP</span>`
-    : `<span class="wip-badge" role="img" aria-label="Work in progress"><span></span>WIP</span>`;
+    ? `<span class="status-badge ${statusClass(status)}" aria-hidden="true"><span></span>WIP</span>`
+    : `<span class="status-badge ${statusClass(status)}" role="img" aria-label="${statusLabel(status)}"><span></span>WIP</span>`;
+}
+
+function statusClass(status) {
+  if (status === "WIP") return "is-wip";
+  return "is-live";
+}
+
+function statusLabel(status) {
+  if (status === "WIP") return "Work in progress";
+  return "Live";
 }
 
 async function copyCurrentLink(button) {

@@ -32,6 +32,13 @@ if (data) {
 const games = data?.games ?? [];
 if (data && !games.length) fail("No games defined in data/games.yaml");
 
+for (const game of games) {
+  if (game.screenshot && !game.captured) fail(`${game.name} has a screenshot but no captured date`);
+  if (!game.screenshot && exists(`assets/${game.id}.png`)) fail(`${game.name} uses the placeholder but still has assets/${game.id}.png`);
+  if (!game.screenshot && exists(`assets/${game.id}-card.webp`)) fail(`${game.name} uses the placeholder but still has assets/${game.id}-card.webp`);
+  if (!game.screenshot && exists(`assets/${game.id}-detail.webp`)) fail(`${game.name} uses the placeholder but still has assets/${game.id}-detail.webp`);
+}
+
 // --- Files exist --------------------------------------------------------------
 
 const screenshotFiles = games.flatMap((game) => (game.screenshot ? Object.values(game.screenshot) : []));
@@ -72,6 +79,10 @@ for (const snippet of ["First or Eighth", "favicon.svg", "src/app.js", ...linked
 }
 
 if (html.includes('href="data:,"')) fail("index.html still suppresses the favicon with href=\"data:,\"");
+
+for (const snippet of ['rel="canonical"', 'property="og:url"', 'property="og:image"', 'name="twitter:card"', 'content="summary_large_image"', "assets/og.png"]) {
+  if (!html.includes(snippet)) fail(`index.html does not include ${snippet}`);
+}
 
 // --- CSS contracts ------------------------------------------------------------
 
@@ -126,7 +137,7 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Static site checks passed (${games.length} games).`);
+console.log(`Static site checks passed (${games.length} games & tools).`);
 
 // --- Helpers ------------------------------------------------------------------
 

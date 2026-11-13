@@ -239,7 +239,7 @@
   text-transform: uppercase;
 }
 
-.wip-badge {
+.status-badge {
   position: absolute;
   top: 12px;
   left: 12px;
@@ -258,7 +258,7 @@
   letter-spacing: 0.14em;
 }
 
-.wip-badge span {
+.status-badge span {
   width: 6px;
   height: 6px;
   border-radius: 999px;
@@ -366,6 +366,12 @@
 .card-link.is-disabled {
   color: var(--text-faint);
   cursor: not-allowed;
+}
+
+.card-link.is-note {
+  border-style: dashed;
+  color: var(--text-faint);
+  cursor: default;
 }
 
 .empty-state {

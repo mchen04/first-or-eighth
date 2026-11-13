@@ -299,6 +299,15 @@
   color: var(--text);
 }
 
+.button.is-note {
+  border-style: dashed;
+  border-color: var(--border-hover);
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-mute);
+  cursor: default;
+}
+
 .button-secondary.is-copied {
   border-color: var(--accent-2);
   color: var(--accent-2);
