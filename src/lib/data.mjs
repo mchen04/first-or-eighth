@@ -9,7 +9,7 @@ const SCREENSHOT_CONTRACT = {
   fallback: { suffix: ".png", format: "png", width: 1440, height: 900 }
 };
 
-const STATUSES = ["Live", "WIP", "Offline"];
+const STATUSES = ["Live", "WIP"];
 const KINDS = ["game", "tool"];
 const GENRES = ["Party", "Sports", "Cards & Casino", "Guessing", "Tools"];
 const PRIVATE_SOURCE = "private";
@@ -144,10 +144,9 @@ export function validateData({ creators, games }) {
     if (!game.sourcePrivate && !isGitHubUrl(game.sourceUrl)) {
       errors.push(`${label} has an invalid source (expected an https://github.com/ URL or "private"): ${show(game.sourceUrl)}`);
     }
-    if (game.url && !isUrl(game.url)) errors.push(`${label} has an invalid play URL: ${show(game.url)}`);
-    if (game.status === "Live" && !game.url) errors.push(`${label} is Live but has no play URL`);
+    if (!game.url) errors.push(`${label} is missing required field: url`);
+    else if (!isUrl(game.url)) errors.push(`${label} has an invalid play URL: ${show(game.url)}`);
     if (game.status === "Live" && !game.screenshot) errors.push(`${label} is Live but has no screenshot`);
-    if (game.status === "Offline" && game.url) errors.push(`${label} is Offline but still has a play URL`);
   }
 
   return errors;

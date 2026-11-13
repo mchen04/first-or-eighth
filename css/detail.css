@@ -155,10 +155,6 @@
   color: var(--accent-2);
 }
 
-.eyebrow.is-offline {
-  color: var(--text-mute);
-}
-
 .detail-title {
   margin: 8px 0 0;
   font-size: clamp(26px, 3.6vw, 38px);

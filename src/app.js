@@ -603,7 +603,7 @@ function libraryPage() {
           <h1>Games &amp; tools.</h1>
           <p>Everything we've built for the group — games to play and tools we actually use.</p>
         </div>
-        <span>${games.length} games &amp; tools / ${wipCount} WIP</span>
+        <span>${games.length} games &amp; tools${wipCount ? ` / ${wipCount} WIP` : ""}</span>
       </section>
 
       <section class="controls" aria-label="Game and tool filters">
@@ -676,7 +676,7 @@ const sorters = {
   status: (a, b) => statusRank(a.status) - statusRank(b.status) || byGameName(a, b)
 };
 
-const STATUS_RANK = { Live: 0, Offline: 1, WIP: 2 };
+const STATUS_RANK = { Live: 0, WIP: 1 };
 
 function statusRank(status) {
   return STATUS_RANK[status] ?? 3;
@@ -894,8 +894,7 @@ function playButton(game, label) {
 
 function cardPlayLink(game) {
   if (!game.url) {
-    const label = game.status === "Offline" ? "Offline" : "Not live";
-    return `<button class="card-link is-disabled" disabled>${label}</button>`;
+    return `<button class="card-link is-disabled" disabled>Not live</button>`;
   }
   const label = game.kind === "tool" ? "Open" : "Play";
   return `<a class="card-link is-primary" href="${escapeAttr(safeUrl(game.url))}" target="_blank" rel="noreferrer noopener" aria-label="${escapeAttr(`${label} ${game.name} — opens in a new tab`)}">${label}</a>`;
@@ -926,9 +925,9 @@ function personPill(id, editorCount = 0) {
 }
 
 function statusBadge(status, decorative = false) {
-  if (status !== "WIP" && status !== "Offline") return "";
-  const label = status === "Offline" ? "Offline" : "WIP";
-  const name = status === "Offline" ? "Offline" : "Work in progress";
+  if (status !== "WIP") return "";
+  const label = "WIP";
+  const name = "Work in progress";
   // On the card the badge is the only status cue, so it announces itself; in the
   // detail overlay the eyebrow already says the status, so hide it.
   return decorative
@@ -938,13 +937,11 @@ function statusBadge(status, decorative = false) {
 
 function statusClass(status) {
   if (status === "WIP") return "is-wip";
-  if (status === "Offline") return "is-offline";
   return "is-live";
 }
 
 function statusLabel(status) {
   if (status === "WIP") return "Work in progress";
-  if (status === "Offline") return "Offline";
   return "Live";
 }
 

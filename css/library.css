@@ -265,16 +265,6 @@
   background: #0a0b14;
 }
 
-.status-badge.is-offline {
-  border: 1px solid var(--text-faint);
-  background: rgba(10, 11, 20, 0.82);
-  color: var(--text-mute);
-}
-
-.status-badge.is-offline span {
-  background: var(--text-faint);
-}
-
 .card-body {
   display: flex;
   min-height: 156px;

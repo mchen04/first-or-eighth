@@ -6,11 +6,9 @@ practical tools we actually use:
 - 25 Words or Less: live at <https://25-words-or-less.vercel.app/> / source at <https://github.com/matthewh8/25-words-or-less>
 - Better 82-0 Multiplayer: live at <https://82-0-orpin.vercel.app/> / source at <https://github.com/mchen04/better-82-0-multiplayer>
 - Build a Bucket: live at <https://build-a-bucket.vercel.app/> / private source
-- CodeNames: work in progress / source at <https://github.com/mchen04/codenames>
 - Ding: live at <https://ding-game.vercel.app/> / source at <https://github.com/jormyy/ding>
 - Felt: live at <https://pokernow.vercel.app/> / source at <https://github.com/mchen04/felt-poker>
 - Heardle: live at <https://heardle67.vercel.app/> / source at <https://github.com/jormyy/heardle>
-- King's Cup: offline (deployment retired) / source at <https://github.com/mchen04/kings-cup>
 - LoLdle: live at <https://loldle-app.vercel.app/> / source at <https://github.com/mchen04/loldle>
 - Neon Royale: live at <https://casino-topaz-gamma.vercel.app/> / source at <https://github.com/mchen04/neon-royale-casino>
 - Hark: live at <https://audiobook-pwa-plum.vercel.app/> / source at <https://github.com/mchen04/hark-audiobook> / companion converter at <https://github.com/mchen04/epub-listener>
@@ -62,11 +60,9 @@ capture sets `screenshot: false` and uses the striped placeholder.
 - `name` — required. Display name.
 - `kind` — optional. `game` (default) or `tool`. Tools use "Open" wherever games
   say "Play", including card and detail buttons and their aria labels.
-- `status` — required. `Live`, `WIP`, or `Offline`. `Offline` means the live
-  deployment is gone but public source remains; it has no `url`, never counts
-  toward the online count, and sorts after Live under "Live first".
-- `url` — required for Live, optional for WIP (an early build link), omitted for
-  Offline.
+- `status` — required. `Live` or `WIP`.
+- `url` — required for every entry. A WIP entry may point at a preview or early
+  build.
 - `source` — required. An `https://github.com/` URL, or the literal `private`
   when the app is public but its repository is not. A private source renders a
   non-link "Private source" note instead of a GitHub button; private repository
@@ -103,14 +99,13 @@ npm run check
 
 ## Credits
 
-- Michael created Better 82-0 Multiplayer, Build a Bucket, CodeNames, Felt,
-  Hark, King's Cup, LoLdle, Neon Royale, Poker Banker, and SplitWisest.
+- Michael created Better 82-0 Multiplayer, Build a Bucket, Felt, Hark, LoLdle,
+  Neon Royale, Poker Banker, and SplitWisest.
 - Jeremy created Ding, Heardle, Pancake, and Valence.
 - Matthew created 25 Words or Less.
 - Michael edited 25 Words or Less, Ding, Pancake, and Valence.
 - Matthew edited Felt and SplitWisest.
 - Jeremy edited Neon Royale.
-- Justin edited King's Cup.
 
 ## Design Notes
 

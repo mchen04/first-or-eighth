@@ -34,8 +34,7 @@ same parser and data layer, so the rendered site and the checks cannot drift.
 - Live entries use screenshot captures tagged with their capture month; entries
   without a capture (`screenshot: false`) use an in-CSS striped placeholder with
   no title initials or letter icons.
-- WIP and Offline entries show a status badge, a disabled action, and the
-  striped thumbnail. Offline is styled distinctly from WIP.
+- WIP entries show a status badge, a disabled action, and the striped thumbnail.
 - Cards and the detail overlay expose Play links for games and Open links for
   tools, plus GitHub links for public source. A `source: private` entry shows a
   non-link "Private source" note instead.
@@ -50,8 +49,7 @@ same parser and data layer, so the rendered site and the checks cannot drift.
   inert background, focus trap, focus restore).
 - Entries are listed alphabetically by default; builders are listed alphabetically
   and their handles link to GitHub profiles.
-- The topbar online count is derived from Live entries with a URL; Offline
-  entries never count.
+- The topbar online count is derived from Live entries.
 - Responsive search, genre chips, sort control, and card grid. Search and sort
   re-render only the results region, preserving control focus.
 
@@ -62,8 +60,8 @@ to `data/games.yaml`; everything (listing, filters, builder counts, related
 views, footer, online count, static checks) derives from that data.
 
 - `kind` is `game` (default) or `tool`; tools use "Open" instead of "Play".
-- `status` is `Live`, `WIP`, or `Offline`. Offline means the deployment is gone
-  but public source remains; it has no `url` and sorts after Live.
+- `status` is `Live` or `WIP`.
+- Every entry has a working `url`; a WIP entry may point at an early build.
 - `source` is an `https://github.com/` URL or the literal `private`. Private
   repository URLs are never written into the repo.
 - `added` is the `YYYY-MM-DD` repository creation date; cards show the year and

@@ -15,10 +15,9 @@
 #               (assets/<id>.png, assets/<id>-card.webp, assets/<id>-detail.webp).
 #               Lowercase letters, numbers, and dashes.
 #   name        Required. Display name.
-#   status      Required. "Live", "WIP", or "Offline" (deployment gone, public
-#               source remains). Offline takes no url.
-#   url         Play/Open URL. Required when status is Live; optional for WIP (a
-#               preview/early build link). Omit for Offline.
+#   status      Required. "Live" or "WIP".
+#   url         Play/Open URL. Required for every entry; a WIP entry may point at
+#               a preview/early build.
 #   source      Required. An https://github.com/ URL, or the literal `private`
 #               when the app is public but its repository is not. A private
 #               source renders a non-link "Private source" note.
@@ -92,23 +91,6 @@
     Multiplayer lobbies seat 2–8 players over an invite code, with a playoff
     barrier and a shared reveal.
 
-- id: codenames
-  name: CodeNames
-  status: WIP
-  source: https://github.com/mchen04/codenames
-  creator: michael
-  editors: []
-  genre: Party
-  added: 2026-06-13
-  accent: "#6f5cff"
-  screenshot: false
-  tagline: Spin up a realtime spy-word room and share the link.
-  description: >
-    CodeNames is a clean, realtime word-association party game. Create an
-    accountless room, invite friends with a link, coordinate with built-in
-    chat, and play through configurable game modes backed by curated word
-    packs and reconnect-safe multiplayer.
-
 - id: ding
   name: Ding
   status: Live
@@ -164,25 +146,6 @@
     work through up to six attempts as the snippet grows from one second to
     sixteen. Backed by the Deezer catalog with popularity filtering and
     type-ahead search.
-
-- id: kings-cup
-  name: King's Cup
-  status: Offline
-  source: https://github.com/mchen04/kings-cup
-  creator: michael
-  editors: [justin]
-  genre: Party
-  added: 2026-05-28
-  accent: "#e3b23c"
-  screenshot: false
-  tagline: Pass the phone. Draw a card. Honor the card.
-  description: >
-    King's Cup is a pass-the-phone party card game. Add your players, then
-    take turns drawing from a full deck where every rank carries a rule —
-    Waterfall, Mate, Rhyme, Floor, and the rest — while an on-screen King's Cup
-    meter fills with each King drawn. Whoever pulls the fourth King drinks the
-    cup and ends the game. Built with React and TypeScript, mobile-first for
-    one shared phone.
 
 - id: loldle
   name: LoLdle
