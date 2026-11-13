@@ -1,8 +1,8 @@
-# Games — the single canonical list powering the whole hub.
+# Games & tools — the single canonical list powering the whole hub.
 #
 # The listing, search, filters, sort, builder counts, related games, footer,
-# online count, and the static checks all derive from this file. To add a
-# game, copy one block, fill in the fields, and drop a screenshot at
+# online count, and the static checks all derive from this file. To add an
+# entry, copy one block, fill in the fields, and drop a screenshot at
 # assets/<id>.png (then run `npm run assets`). That's it.
 #
 # Quote any value containing a literal "#" (e.g. tagline: "Be the #1 player",
@@ -15,36 +15,40 @@
 #               (assets/<id>.png, assets/<id>-card.webp, assets/<id>-detail.webp).
 #               Lowercase letters, numbers, and dashes.
 #   name        Required. Display name.
-#   status      Required. "Live" or "WIP".
-#   url         Play URL. Required when status is Live; optional for WIP (a
-#               preview/early build link).
-#   source      Required. https:// URL to the source repository.
+#   status      Required. "Live", "WIP", or "Offline" (deployment gone, public
+#               source remains). Offline takes no url.
+#   url         Play/Open URL. Required when status is Live; optional for WIP (a
+#               preview/early build link). Omit for Offline.
+#   source      Required. An https://github.com/ URL, or the literal `private`
+#               when the app is public but its repository is not. A private
+#               source renders a non-link "Private source" note.
 #   creator     Required. A creator id from data/creators.yaml.
 #   editors     List of creator ids who edited it. Use [] for none.
-#   genre       Required. Drives the genre filter chips.
-#   year        Required. Release year.
+#   genre       Required. One of: Party, Sports, Cards & Casino, Guessing, Tools.
+#   added       Required. YYYY-MM-DD GitHub repository creation date. Cards and
+#               detail show the year; "Newest" sorts on the full date.
 #   accent      Required. Hex accent color (quoted, leading "#").
 #   tagline     Required. One short line shown on the card and detail.
 #   description Required. A paragraph. The `>` folds wrapped lines into one.
-#   screenshot  Optional. Set to false for games with no capture (uses the
+#   screenshot  Optional. Set to false for entries with no capture (uses the
 #               striped placeholder). Defaults to true (derived from id).
 
-- id: valence
-  name: Valence
+- id: twenty-five
+  name: 25 Words or Less
   status: Live
-  url: https://valence1.vercel.app/
-  source: https://github.com/jormyy/valence
-  creator: jeremy
+  url: https://25-words-or-less.vercel.app/
+  source: https://github.com/matthewh8/25-words-or-less
+  creator: matthew
   editors: [michael]
-  genre: Sports
-  year: 2026
-  accent: "#54d2d2"
-  tagline: Live scores, streams, and game flow in one board.
+  genre: Party
+  added: 2026-05-19
+  captured: 2026-11-13
+  accent: "#9b5de5"
+  tagline: Build teams, pick a mode, and clue under pressure.
   description: >
-    Valence is a live sports dashboard for basketball, baseball, and tennis.
-    It pulls current games, groups them by sport and league, tracks
-    live/upcoming/final states, and opens a watch panel with stream options
-    and game context.
+    25 Words or Less is a local same-screen party game with team setup,
+    multiple rule presets, challenge toggles, timers, and large word banks
+    split across green, yellow, red, and money decks.
 
 - id: better-82-0
   name: Better 82-0 Multiplayer
@@ -54,7 +58,8 @@
   creator: michael
   editors: []
   genre: Sports
-  year: 2026
+  added: 2026-07-01
+  captured: 2026-11-13
   accent: "#ef5a29"
   tagline: Draft a five-player lineup and race friends to 82 wins.
   description: >
@@ -64,6 +69,46 @@
     live standings, reconnect-safe lobbies, and server-authoritative spins,
     picks, scoring, winners, and tiebreakers.
 
+- id: build-a-bucket
+  name: Build a Bucket
+  status: Live
+  url: https://build-a-bucket.vercel.app/
+  source: private
+  creator: michael
+  editors: []
+  genre: Sports
+  added: 2026-11-13
+  captured: 2026-11-13
+  accent: "#e0663a"
+  tagline: Ten picks, one spin, and an 82-game season.
+  description: >
+    Build a Bucket is a mobile-first rebuild of the Build a Bucket basketball
+    game. Ten picks come with headshots and grades, then a team spin leads into
+    an 82-game season with decision moments, the play-in, the playoffs, awards,
+    and a final report. Modes cover Play, Daily Challenge (one shared seeded run
+    a day), Salary Cap (a daily five-column budget board with Salary Cap
+    powers), Squad Builder (five slots from PG to C), and Career (build a player
+    through the combine, draft, seasons, and the Hall of Fame). Realtime
+    Multiplayer lobbies seat 2–8 players over an invite code, with a playoff
+    barrier and a shared reveal.
+
+- id: codenames
+  name: CodeNames
+  status: WIP
+  source: https://github.com/mchen04/codenames
+  creator: michael
+  editors: []
+  genre: Party
+  added: 2026-06-13
+  accent: "#6f5cff"
+  screenshot: false
+  tagline: Spin up a realtime spy-word room and share the link.
+  description: >
+    CodeNames is a clean, realtime word-association party game. Create an
+    accountless room, invite friends with a link, coordinate with built-in
+    chat, and play through configurable game modes backed by curated word
+    packs and reconnect-safe multiplayer.
+
 - id: ding
   name: Ding
   status: Live
@@ -71,8 +116,9 @@
   source: https://github.com/jormyy/ding
   creator: jeremy
   editors: [michael]
-  genre: Arcade
-  year: 2026
+  genre: Cards & Casino
+  added: 2026-04-10
+  captured: 2026-11-13
   accent: "#ff3d7f"
   tagline: Rank every poker hand before the reveal punishes you.
   description: >
@@ -81,64 +127,35 @@
     place every hand at the table in exact strength order. A perfect board
     wins; any inversion costs the table.
 
-- id: loldle
-  name: LoLdle
+- id: felt
+  name: Felt
   status: Live
-  url: https://loldle-app.vercel.app/
-  source: https://github.com/mchen04/loldle
+  url: https://pokernow.vercel.app/
+  source: https://github.com/mchen04/felt-poker
   creator: michael
-  editors: []
-  genre: Arcade
-  year: 2026
-  accent: "#c8aa6e"
-  tagline: Guess League champions across five endless clue modes.
+  editors: [matthew]
+  genre: Cards & Casino
+  added: 2026-06-13
+  captured: 2026-11-13
+  accent: "#f2b138"
+  tagline: Private poker with friends — every premium feature free.
   description: >
-    LoLdle is an endless League of Legends champion guessing game. It supports
-    Classic attribute feedback, Quote, Ability, Emoji, and Splash rounds, with
-    champion search, stats, settings, and replayable randomized puzzles.
-
-- id: codenames
-  name: CodeNames
-  status: WIP
-  url: https://codenames-rho-smoky.vercel.app/
-  source: https://github.com/mchen04/codenames
-  creator: michael
-  editors: []
-  genre: Arcade
-  year: 2026
-  accent: "#6f5cff"
-  tagline: Spin up a realtime spy-word room and share the link.
-  description: >
-    CodeNames is a clean, realtime word-association party game. Create an
-    accountless room, invite friends with a link, coordinate with built-in
-    chat, and play through configurable game modes backed by curated word
-    packs and reconnect-safe multiplayer.
-
-- id: twenty-five
-  name: 25 Words or Less
-  status: Live
-  url: https://25-words-or-less.vercel.app/
-  source: https://github.com/matthewh8/25-words-or-less
-  creator: matthew
-  editors: [michael]
-  genre: Arcade
-  year: 2026
-  accent: "#9b5de5"
-  tagline: Build teams, pick a mode, and clue under pressure.
-  description: >
-    25 Words or Less is a local same-screen party game with team setup,
-    multiple rule presets, challenge toggles, timers, and large word banks
-    split across green, yellow, red, and money decks.
+    Felt is a browser-based private poker room for friends. Every feature
+    other rooms hide behind diamonds, PLUS tiers, and timers — Run It Twice,
+    Rabbit Hunt, full hand logs, all the variants — is unlocked for everyone,
+    on the house. Deal a hand in one click and share the link to join. It is
+    play-money only — no accounts, no signup, no paywall, and no real stakes.
 
 - id: heardle
   name: Heardle
   status: Live
-  url: https://heardle67.vercel.app
+  url: https://heardle67.vercel.app/
   source: https://github.com/jormyy/heardle
   creator: jeremy
   editors: []
-  genre: Arcade
-  year: 2026
+  genre: Guessing
+  added: 2026-05-24
+  captured: 2026-11-13
   accent: "#1db954"
   tagline: Pick a theme. Guess the track. Six clips to get it right.
   description: >
@@ -150,14 +167,14 @@
 
 - id: kings-cup
   name: King's Cup
-  status: Live
-  url: https://kings-cup-liard.vercel.app/
+  status: Offline
   source: https://github.com/mchen04/kings-cup
   creator: michael
   editors: [justin]
-  genre: Arcade
-  year: 2026
+  genre: Party
+  added: 2026-05-28
   accent: "#e3b23c"
+  screenshot: false
   tagline: Pass the phone. Draw a card. Honor the card.
   description: >
     King's Cup is a pass-the-phone party card game. Add your players, then
@@ -167,25 +184,22 @@
     cup and ends the game. Built with React and TypeScript, mobile-first for
     one shared phone.
 
-- id: pour-decisions
-  name: Pour Decisions
+- id: loldle
+  name: LoLdle
   status: Live
-  url: https://drinking-games-eosin.vercel.app/
-  source: https://github.com/mchen04/drinking-games
+  url: https://loldle-app.vercel.app/
+  source: https://github.com/mchen04/loldle
   creator: michael
   editors: []
-  genre: Arcade
-  year: 2026
-  accent: "#d946ef"
-  tagline: Pick your poison from 36 neon party games.
+  genre: Guessing
+  added: 2026-05-26
+  captured: 2026-11-13
+  accent: "#c8aa6e"
+  tagline: Guess League champions across five endless clue modes.
   description: >
-    Pour Decisions is a neon-noir drinking games arcade with 36 animated games
-    across eight categories — party prompts, card and dice games, spinners,
-    endurance runs, verbal duels, skill challenges, and trivia. A shared player
-    roster carries across every pass-and-play mode, sound effects are
-    synthesised live with the Web Audio API, and the whole thing is
-    mobile-first for passing one phone around the table. Every game works dry
-    too — swap sips for any forfeit you like.
+    LoLdle is an endless League of Legends champion guessing game. It supports
+    Classic attribute feedback, Quote, Ability, Emoji, and Splash rounds, with
+    champion search, stats, settings, and replayable randomized puzzles.
 
 - id: neon-royale
   name: Neon Royale
@@ -194,8 +208,9 @@
   source: https://github.com/mchen04/neon-royale-casino
   creator: michael
   editors: [jeremy]
-  genre: Arcade
-  year: 2026
+  genre: Cards & Casino
+  added: 2026-05-28
+  captured: 2026-11-13
   accent: "#ef2d56"
   tagline: 33 play-money casino games on one neon floor.
   description: >
@@ -207,72 +222,96 @@
     Web Audio API. Pure play money — no accounts, no payments, no real
     wagering.
 
-- id: felt
-  name: Felt
-  status: Live
-  url: https://pokernow.vercel.app/
-  source: https://github.com/mchen04/felt-poker
-  creator: michael
-  editors: []
-  genre: Card
-  year: 2026
-  accent: "#f2b138"
-  tagline: Private poker with friends — every premium feature free.
-  description: >
-    Felt is a browser-based private poker room for friends. Every feature
-    other rooms hide behind diamonds, PLUS tiers, and timers — Run It Twice,
-    Rabbit Hunt, full hand logs, all the variants — is unlocked for everyone,
-    on the house. Deal a hand in one click and share the link to join. It is
-    play-money only — no accounts, no signup, no paywall, and no real stakes.
-
-- id: splitwisest
-  name: SplitWisest
-  status: Live
-  url: https://splitwisest-kappa.vercel.app/
-  source: https://github.com/mchen04/splitwisest
-  creator: michael
-  editors: [matthew]
-  genre: Utility
-  year: 2026
-  accent: "#1b6e5a"
-  tagline: Split shared expenses and see who owes who.
-  description: >
-    SplitWisest is a shared-expense tracker for friends and groups. Create an
-    account, connect with friends or join a group by invite code, log who paid
-    for what, and let it settle balances so everyone can see who owes who at a
-    glance.
-
 - id: hark
   name: Hark
+  kind: tool
   status: Live
   url: https://audiobook-pwa-plum.vercel.app/
   source: https://github.com/mchen04/hark-audiobook
   creator: michael
   editors: []
-  genre: Utility
-  year: 2026
+  genre: Tools
+  added: 2026-07-10
+  captured: 2026-11-13
   accent: "#6f8dff"
   tagline: Your audiobooks, kept simple.
   description: >
-    Hark is a private, installable audiobook player built for the chaptered
-    MP3s created by the companion Epub Listener converter. Audio is parsed and
-    stored on-device instead of uploaded, while chapters, progress, bookmarks,
-    collections, and library metadata stay in sync across devices. Playback
-    works offline with speed controls, skip intervals, sleep timers, and
-    lock-screen controls.
+    Hark is an audiobook PWA with on-device MP3 import and document narration,
+    offline playback, transcripts, and cross-device progress and metadata sync.
+    The companion EPUB converter lives at github.com/mchen04/epub-listener.
 
 - id: pancake
   name: Pancake
-  status: WIP
-  url: https://pancakedynasty.vercel.app
+  kind: tool
+  status: Live
+  url: https://pancakedynasty.vercel.app/
   source: https://github.com/jormyy/pancake
   creator: jeremy
   editors: [michael]
-  genre: Arcade
-  year: 2026
+  genre: Sports
+  added: 2026-02-26
+  captured: 2026-11-13
   accent: "#ffb627"
-  screenshot: true
-  tagline: Stack 'em while they're hot.
+  tagline: "Dynasty hoops: drafts, lineups, trades, live scoring."
   description: >
-    Pancake is still being built. It gets a visible slot now so the hub
-    already works when the game is ready to join the rotation.
+    Pancake is the group's dynasty fantasy basketball league app for iPhone, an
+    installable PWA with persistent rosters and future picks, startup auctions
+    and rookie drafts, daily lineups with automatic pre-tipoff optimization,
+    FAAB claims, multi-team trades, live scoring, playoffs and season rollover,
+    plus push notifications.
+
+- id: poker-banker
+  name: Poker Banker
+  kind: tool
+  status: Live
+  url: https://poker-banker.vercel.app/
+  source: private
+  creator: michael
+  editors: []
+  genre: Tools
+  added: 2026-11-11
+  captured: 2026-11-13
+  accent: "#3aa88f"
+  tagline: Home-game bookkeeping that never moves money.
+  description: >
+    Poker Banker is a phone-first banking PWA for the group's home poker cash
+    games. It keeps reusable players, exact buy-ins, cash-outs, and payments,
+    traceable corrections, and reports, and hands out login-free viewer links
+    for a session. It works offline. It records money; it never moves money.
+
+- id: splitwisest
+  name: SplitWisest
+  kind: tool
+  status: Live
+  url: https://splitwisest-kappa.vercel.app/
+  source: https://github.com/mchen04/splitwisest
+  creator: michael
+  editors: [matthew]
+  genre: Tools
+  added: 2026-06-11
+  captured: 2026-11-13
+  accent: "#1b6e5a"
+  tagline: Split shared expenses and see who owes who.
+  description: >
+    SplitWisest is a shared-expense tracker for friends, with flexible splits,
+    group balances, debt simplification, offline settlement records, and
+    contextual chat.
+
+- id: valence
+  name: Valence
+  kind: tool
+  status: Live
+  url: https://valence1.vercel.app/
+  source: https://github.com/jormyy/valence
+  creator: jeremy
+  editors: [michael]
+  genre: Sports
+  added: 2026-03-24
+  captured: 2026-11-13
+  accent: "#54d2d2"
+  tagline: Live scores, streams, and game flow in one board.
+  description: >
+    Valence is a live sports dashboard for basketball, baseball, and tennis.
+    It pulls current games, groups them by sport and league, tracks
+    live/upcoming/final states, and opens a watch panel with stream options
+    and game context.

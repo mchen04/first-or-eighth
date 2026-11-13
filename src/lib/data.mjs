@@ -9,7 +9,12 @@ const SCREENSHOT_CONTRACT = {
   fallback: { suffix: ".png", format: "png", width: 1440, height: 900 }
 };
 
-export { SCREENSHOT_CONTRACT };
+const STATUSES = ["Live", "WIP", "Offline"];
+const KINDS = ["game", "tool"];
+const GENRES = ["Party", "Sports", "Cards & Casino", "Guessing", "Tools"];
+const PRIVATE_SOURCE = "private";
+
+export { SCREENSHOT_CONTRACT, STATUSES, KINDS, GENRES, PRIVATE_SOURCE };
 
 export function buildData(rawCreators, rawGames) {
   if (rawCreators != null && (typeof rawCreators !== "object" || Array.isArray(rawCreators))) {
@@ -43,16 +48,21 @@ function normalizeGames(raw) {
   const list = Array.isArray(raw) ? raw : [];
   return list.map((game) => {
     const editorsValue = game?.editors;
+    const added = text(game?.added);
     const normalized = {
       id: game?.id,
       name: text(game?.name),
+      kind: text(game?.kind) ?? "game",
       status: game?.status,
       url: game?.url ?? "",
       sourceUrl: game?.source,
+      sourcePrivate: game?.source === PRIVATE_SOURCE,
       creator: game?.creator,
       editors: Array.isArray(editorsValue) ? editorsValue.map(String) : [],
       genre: text(game?.genre),
-      year: text(game?.year),
+      added,
+      year: added ? added.slice(0, 4) : undefined,
+      captured: text(game?.captured),
       accent: game?.accent,
       tagline: text(game?.tagline),
       description: text(game?.description),
@@ -110,7 +120,9 @@ export function validateData({ creators, games }) {
     else if (!/^[a-z0-9-]+$/.test(game.id)) errors.push(`Game id must be lowercase letters, numbers, and dashes: ${game.id}`);
     seenIds.add(game.id);
 
-    if (!["Live", "WIP"].includes(game.status)) errors.push(`${label} has an unknown status: ${game.status}`);
+    if (!KINDS.includes(game.kind)) errors.push(`${label} has an unknown kind: ${game.kind}`);
+    if (!STATUSES.includes(game.status)) errors.push(`${label} has an unknown status: ${game.status}`);
+    if (!GENRES.includes(game.genre)) errors.push(`${label} has an unknown genre: ${game.genre} (expected one of ${GENRES.join(", ")})`);
     if (!creatorIds.has(game.creator)) errors.push(`${label} references an unknown creator: ${game.creator}`);
     if (game.editorsInvalid !== undefined) {
       errors.push(`${label} editors must be a list like [michael]: got ${JSON.stringify(game.editorsInvalid)}`);
@@ -119,18 +131,23 @@ export function validateData({ creators, games }) {
       if (!creatorIds.has(editor)) errors.push(`${label} references an unknown editor: ${editor}`);
     }
 
-    for (const field of ["name", "genre", "year", "tagline", "description"]) {
+    for (const field of ["name", "tagline", "description"]) {
       if (!game[field]) errors.push(`${label} is missing required field: ${field}`);
     }
-    if (game.year && !/^\d{4}$/.test(game.year)) errors.push(`${label} has an invalid year (expected 4 digits): ${game.year}`);
+
+    if (!game.added) errors.push(`${label} is missing required field: added`);
+    else if (!isDate(game.added)) errors.push(`${label} has an invalid added date (expected YYYY-MM-DD): ${game.added}`);
+    if (game.captured != null && !isDate(game.captured)) errors.push(`${label} has an invalid captured date (expected YYYY-MM-DD): ${game.captured}`);
+    if (game.captured != null && !game.screenshot) errors.push(`${label} has a captured date but no screenshot`);
 
     if (!isHexColor(game.accent)) errors.push(`${label} has an invalid accent: ${show(game.accent)}`);
-    if (!isUrl(game.sourceUrl)) errors.push(`${label} has an invalid source URL: ${show(game.sourceUrl)}`);
+    if (!game.sourcePrivate && !isGitHubUrl(game.sourceUrl)) {
+      errors.push(`${label} has an invalid source (expected an https://github.com/ URL or "private"): ${show(game.sourceUrl)}`);
+    }
     if (game.url && !isUrl(game.url)) errors.push(`${label} has an invalid play URL: ${show(game.url)}`);
     if (game.status === "Live" && !game.url) errors.push(`${label} is Live but has no play URL`);
     if (game.status === "Live" && !game.screenshot) errors.push(`${label} is Live but has no screenshot`);
-    // A WIP game may carry a preview URL (an early build); url is only required
-    // once it is Live.
+    if (game.status === "Offline" && game.url) errors.push(`${label} is Offline but still has a play URL`);
   }
 
   return errors;
@@ -144,6 +161,16 @@ function show(value) {
 
 function isUrl(value) {
   return typeof value === "string" && /^https:\/\/\S+$/.test(value);
+}
+
+function isGitHubUrl(value) {
+  return typeof value === "string" && /^https:\/\/github\.com\/[^/\s]+\/[^/\s]+/.test(value);
+}
+
+function isDate(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
 function isHexColor(value) {
