@@ -158,11 +158,12 @@
   added: 2026-05-26
   captured: 2026-11-13
   accent: "#c8aa6e"
-  tagline: Guess League champions across five endless clue modes.
+  tagline: Guess League champions across endless clue modes.
   description: >
     LoLdle is an endless League of Legends champion guessing game. It supports
-    Classic attribute feedback, Quote, Ability, Emoji, and Splash rounds, with
-    champion search, stats, settings, and replayable randomized puzzles.
+    many clue modes — Classic attribute feedback, Quote, Ability, Emoji,
+    Splash, and more — with champion search, stats, settings, and replayable
+    randomized puzzles.
 
 - id: neon-royale
   name: Neon Royale
@@ -175,14 +176,15 @@
   added: 2026-05-28
   captured: 2026-11-13
   accent: "#ef2d56"
-  tagline: 33 play-money casino games on one neon floor.
+  tagline: Play-money casino games on one neon floor.
   description: >
-    Neon Royale is a neon art-deco casino with 33-plus fully playable games
-    across cards, table, slots, wheels, dice, modern crypto-style rounds, and
-    lottery. One persistent play-money chip wallet carries across every game,
+    Neon Royale is a neon art-deco casino with more than thirty fully playable
+    games across cards, table, slots, wheels, dice, modern crypto-style rounds,
+    and lottery. One persistent play-money chip wallet carries across every game,
     Framer Motion drives 3D card deals, spinning roulette wheels, cascading
     Megaways reels, and rising Crash rockets, and sound is synthesised with the
-    Web Audio API. Pure play money — no accounts, no payments, no real
+    Web Audio API. Sign in optionally or continue as a guest, climb the Top
+    Players leaderboard, and play pure play money — no payments, no real
     wagering.
 
 - id: hark

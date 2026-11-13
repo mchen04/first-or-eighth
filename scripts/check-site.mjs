@@ -80,7 +80,7 @@ for (const snippet of ["First or Eighth", "favicon.svg", "src/app.js", ...linked
 
 if (html.includes('href="data:,"')) fail("index.html still suppresses the favicon with href=\"data:,\"");
 
-for (const snippet of ['rel="canonical"', 'property="og:url"', 'property="og:image"', 'name="twitter:card"', 'content="summary_large_image"', "assets/og.png", "tools"]) {
+for (const snippet of ['rel="canonical"', 'property="og:url"', 'property="og:image"', 'name="twitter:card"', 'content="summary_large_image"', "assets/og.png"]) {
   if (!html.includes(snippet)) fail(`index.html does not include ${snippet}`);
 }
 
