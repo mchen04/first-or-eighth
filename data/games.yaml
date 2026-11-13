@@ -15,6 +15,8 @@
 #               (assets/<id>.png, assets/<id>-card.webp, assets/<id>-detail.webp).
 #               Lowercase letters, numbers, and dashes.
 #   name        Required. Display name.
+#   kind        Optional. "game" (default) or "tool". Tools say "Open" where
+#               games say "Play".
 #   status      Required. "Live" or "WIP".
 #   url         Play/Open URL. Required for every entry; a WIP entry may point at
 #               a preview/early build.
@@ -26,6 +28,9 @@
 #   genre       Required. One of: Party, Sports, Cards & Casino, Guessing, Tools.
 #   added       Required. YYYY-MM-DD GitHub repository creation date. Cards and
 #               detail show the year; "Newest" sorts on the full date.
+#   captured    Optional. YYYY-MM-DD the thumbnail capture was taken; the tag
+#               reads like "Captured Nov 2026". Entries with a screenshot carry
+#               one.
 #   accent      Required. Hex accent color (quoted, leading "#").
 #   tagline     Required. One short line shown on the card and detail.
 #   description Required. A paragraph. The `>` folds wrapped lines into one.

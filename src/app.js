@@ -709,7 +709,7 @@ function gameCard(game) {
         </div>
         <div class="card-actions">
           ${cardPlayLink(game)}
-          ${game.sourcePrivate ? privateSourceNote("card-link is-note") : externalLink("card-link", game.sourceUrl, "GitHub", game.name)}
+          ${sourceAction(game, "card-link")}
         </div>
       </div>
     </article>
@@ -870,9 +870,8 @@ function thumb(game, big = false) {
 }
 
 function captureLabel(game) {
-  if (!game.captured) return "Live capture";
-  const date = new Date(`${game.captured}T00:00:00Z`);
-  if (Number.isNaN(date.getTime())) return "Live capture";
+  const date = game.captured ? new Date(`${game.captured}T00:00:00Z`) : null;
+  if (!date || Number.isNaN(date.getTime())) return "Live capture";
   return `Captured ${date.toLocaleString("en-US", { month: "short", timeZone: "UTC" })} ${date.getUTCFullYear()}`;
 }
 
@@ -926,13 +925,11 @@ function personPill(id, editorCount = 0) {
 
 function statusBadge(status, decorative = false) {
   if (status !== "WIP") return "";
-  const label = "WIP";
-  const name = "Work in progress";
   // On the card the badge is the only status cue, so it announces itself; in the
   // detail overlay the eyebrow already says the status, so hide it.
   return decorative
-    ? `<span class="status-badge ${statusClass(status)}" aria-hidden="true"><span></span>${label}</span>`
-    : `<span class="status-badge ${statusClass(status)}" role="img" aria-label="${name}"><span></span>${label}</span>`;
+    ? `<span class="status-badge ${statusClass(status)}" aria-hidden="true"><span></span>WIP</span>`
+    : `<span class="status-badge ${statusClass(status)}" role="img" aria-label="${statusLabel(status)}"><span></span>WIP</span>`;
 }
 
 function statusClass(status) {
