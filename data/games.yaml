@@ -77,12 +77,12 @@
   name: Build a Bucket
   status: Live
   url: https://build-a-bucket.vercel.app/
-  source: private
+  source: https://github.com/mchen04/build-a-bucket
   creator: michael
   editors: []
   genre: Sports
   added: 2026-11-13
-  captured: 2026-11-13
+  captured: 2026-11-25
   accent: "#e0663a"
   tagline: Ten picks, one spin, and an 82-game season.
   description: >
@@ -90,11 +90,11 @@
     game. Ten picks come with headshots and grades, then a team spin leads into
     an 82-game season with decision moments, the play-in, the playoffs, awards,
     and a final report. Modes cover Play, Daily Challenge (one shared seeded run
-    a day), Salary Cap (a daily five-column budget board with Salary Cap
-    powers), Squad Builder (five slots from PG to C), and Career (build a player
-    through the combine, draft, seasons, and the Hall of Fame). Realtime
-    Multiplayer lobbies seat 2–8 players over an invite code, with a playoff
-    barrier and a shared reveal.
+    a day), Salary Cap (a daily or infinite five-column budget board with Salary
+    Cap powers), and Squad Builder (five slots from PG to C). Play with friends
+    seats 2–8 players in one shared NBA league over an invite link: everyone
+    builds first, draws a different team, and watches the same fast season and
+    playoff bracket together.
 
 - id: ding
   name: Ding
@@ -235,13 +235,13 @@
   kind: tool
   status: Live
   url: https://poker-banker.vercel.app/
-  source: private
+  source: https://github.com/mchen04/poker-banker
   creator: michael
   editors: []
   genre: Tools
   added: 2026-11-11
-  captured: 2026-11-13
-  accent: "#3aa88f"
+  captured: 2026-11-25
+  accent: "#3f8fd0"
   tagline: Home-game bookkeeping that never moves money.
   description: >
     Poker Banker is a phone-first banking PWA for the group's home poker cash
@@ -264,8 +264,9 @@
   tagline: Split shared expenses and see who owes who.
   description: >
     SplitWisest is a shared-expense tracker for friends, with flexible splits,
-    group balances, debt simplification, offline settlement records, and
-    contextual chat.
+    multiple currencies, custom non-money units, recurring expenses, group
+    balances, debt simplification, offline settlement records, and contextual
+    chat.
 
 - id: valence
   name: Valence

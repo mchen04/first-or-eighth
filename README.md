@@ -5,7 +5,7 @@ practical tools we actually use:
 
 - 25 Words or Less: live at <https://25-words-or-less.vercel.app/> / source at <https://github.com/matthewh8/25-words-or-less>
 - Better 82-0 Multiplayer: live at <https://82-0-orpin.vercel.app/> / source at <https://github.com/mchen04/better-82-0-multiplayer>
-- Build a Bucket: live at <https://build-a-bucket.vercel.app/> / private source
+- Build a Bucket: live at <https://build-a-bucket.vercel.app/> / source at <https://github.com/mchen04/build-a-bucket>
 - Ding: live at <https://ding-game.vercel.app/> / source at <https://github.com/jormyy/ding>
 - Felt: live at <https://pokernow.vercel.app/> / source at <https://github.com/mchen04/felt-poker>
 - Hark: live at <https://audiobook-pwa-plum.vercel.app/> / source at <https://github.com/mchen04/hark-audiobook> / companion converter at <https://github.com/mchen04/epub-listener>
@@ -13,7 +13,7 @@ practical tools we actually use:
 - LoLdle: live at <https://loldle-app.vercel.app/> / source at <https://github.com/mchen04/loldle>
 - Neon Royale: live at <https://casino-topaz-gamma.vercel.app/> / source at <https://github.com/mchen04/neon-royale-casino>
 - Pancake: live at <https://pancakedynasty.vercel.app/> / source at <https://github.com/jormyy/pancake>
-- Poker Banker: live at <https://poker-banker.vercel.app/> / private source
+- Poker Banker: live at <https://poker-banker.vercel.app/> / source at <https://github.com/mchen04/poker-banker>
 - SplitWisest: live at <https://splitwisest-kappa.vercel.app/> / source at <https://github.com/mchen04/splitwisest>
 - Valence: live at <https://valence1.vercel.app/> / source at <https://github.com/jormyy/valence>
 
